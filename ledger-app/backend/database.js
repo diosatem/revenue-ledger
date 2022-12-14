@@ -2,21 +2,9 @@
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
-
-
-
-// mongoose.connect('mongodb://localhost:27017/revenue-ledger', (err) => {
-//     if (!err) {
-//         console.log('MongoDB connection succeeded.')
-//     } else {
-//         console.log('There is an error in MongoDB connection: ' + JSON.stringify(err, undefined, 2));
-//     }
-// });
-
 mongoose
   .connect(
-    'mongodb://localhost:27017/revenueLedger'
-  )
+    'mongodb+srv://diosa:6CvA4kxS50BF02rV@cluster0.cuersbo.mongodb.net/revenue-ledger?retryWrites=true&w=majority')
   .then(() => {
     console.log("Connected to database!");
   })

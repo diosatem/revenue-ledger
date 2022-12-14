@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-let Revenue = mongoose.model('Revenue', {
+const revenueSchema = mongoose.Schema({
     invoiceNumber: { type: Number },
     date: { type: String },
     particulars: { String },
     amount: { type: Number }
 });
 
-module.exports = { Revenue };
+module.exports = mongoose.model('Revenue', revenueSchema);

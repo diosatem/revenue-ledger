@@ -1,0 +1,3 @@
+6CvA4kxS50BF02rV
+
+mongosh "mongodb+srv://cluster0.cuersbo.mongodb.net/revenue-ledger" --apiVersion 1 --username diosa
