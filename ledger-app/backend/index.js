@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors({ origin: 'http://localhost:4200' }));
+app.use(cors({ origin: '*' }));
 
 const onError = error => {
     if (error.syscall !== "listen") {

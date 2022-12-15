@@ -38,7 +38,7 @@ router.get('/:id', (req, res, next) => {
         return res.status(400).send('No record with given id: ${req.params.id}');
     Revenue.findById(req.params.id, (err, doc) => {
         if (!err) { res.send(doc); } else {
-            console.log("Error in retrieving revenues!")
+            console.log("Entry retrieval failed!")
         }
     });
 });
