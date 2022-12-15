@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Revenue } from '../shared/revenue.model';
 
+import { Revenue } from '../shared/revenue.model';
 import { RevenueService } from '../shared/revenue.service';
 
 @Component({
@@ -10,12 +10,14 @@ import { RevenueService } from '../shared/revenue.service';
   styleUrls: ['./revenue.component.css'],
   providers: [RevenueService]
 })
+
 export class RevenueComponent implements OnInit {
 
   constructor(public revenueService: RevenueService) { }
 
   ngOnInit(): void {
     this.resetForm();
+    this.refreshRevenueList();
   }
 
   resetForm(form?: NgForm) {
@@ -30,12 +32,6 @@ export class RevenueComponent implements OnInit {
     }
   }
 
-  refreshRevenueList() {
-    this.revenueService.getRevenueList().subscribe((res) => {
-      this.revenueService.revenues = res as Revenue[];
-    });
-  }
-
   onSubmit(form: NgForm) {
     if (form.value._id == "") {
       this.revenueService.postRevenue(form.value).subscribe((res) => {
@@ -43,8 +39,7 @@ export class RevenueComponent implements OnInit {
         this.refreshRevenueList();
         alert("Entry saved successfully.");
       });
-    }
-    else {
+    } else {
       this.revenueService.putRevenue(form.value).subscribe((res) => {
         this.resetForm(form);
         this.refreshRevenueList();
@@ -53,16 +48,23 @@ export class RevenueComponent implements OnInit {
     }
   }
 
-// onEdit(rev: Revenue) {
-//   this.revenueService.selectedRevenue = rev;
-// }
+  refreshRevenueList() {
+    this.revenueService.getRevenueList().subscribe((res) => {
+      this.revenueService.revenues = res as Revenue[];
+    });
+  }
 
-// onDelete(_id: string, form: NgForm) {
-//   if (confirm('Are you sure to delete this record ?') == true) {
-//     this.employeeService.deleteEmployee(_id).subscribe((res) => {
-//       this.refreshEmployeeList();
-//       this.resetForm(form);
-//       M.toast({ html: 'Deleted successfully', classes: 'rounded' });
-//     });
-//   }
+  onEdit(rev: Revenue) {
+    this.revenueService.selectedRevenue = rev;
+  }
+
+  onDelete(_id: string, form: NgForm) {
+    if (confirm('Are you sure to delete this record ?') == true) {
+      this.revenueService.deleteRevenue(_id).subscribe((res) => {
+        this.refreshRevenueList();
+        this.resetForm(form);
+        alert("Entry deleted successfully.");
+      });
+    }
+  }
 }

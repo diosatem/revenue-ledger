@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/toPromise';
 
@@ -12,7 +12,8 @@ import { Revenue } from './revenue.model';
 export class RevenueService {
 selectedRevenue: Revenue;
 revenues: Revenue[];
-readonly baseURL = 'http://localhost:3000/api/revenues';
+// revenuesUpdated = new Subject<Revenue[]>();
+readonly baseURL = 'http://localhost:3000/revenues';
 
   constructor(private http: HttpClient) { }
 

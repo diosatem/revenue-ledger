@@ -1,3 +1,7 @@
 6CvA4kxS50BF02rV
 
 mongosh "mongodb+srv://cluster0.cuersbo.mongodb.net/revenue-ledger" --apiVersion 1 --username diosa
+
+mongodb+srv://diosa:6CvA4kxS50BF02rV@cluster0.cuersbo.mongodb.net/?retryWrites=true&w=majority
+
+mongodb://localhost:27017/revenueLedger

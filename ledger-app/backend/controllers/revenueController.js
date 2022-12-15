@@ -1,21 +1,39 @@
-const e = require('express');
 const express = require('express');
-// let router = express.Router();
-let ObjectId = require('mongoose').Types.ObjectId;
-const app = express();
+const router = express.Router();
+const ObjectId = require('mongoose').Types.ObjectId;
+// const app = express();
 
-let { Revenue } = require('../models/revenue');
+const { Revenue } = require('../models/revenue');
 
-//localhost:3000/revenues/
-app.get('/api/revenues', (req, res) => {
-    Revenue.find((err, docs) => {
-        if (!err) { res.send(docs); } else {
-            console.log("Error in retrieving revenues!")
+router.post('/', (req, res, next) => {
+    const rev = new Revenue(
+        {
+            invoiceNumber: req.body.invoiceNumber,
+            date: req.body.date,
+            particulars: req.body.particulars,
+            amount: req.body.amount
         }
+    );   
+    
+    rev.save().then(createdRevenue => {
+        res.status(201).json({
+            message: "Entry successfully added!",
+            invoiceId: createdRevenue._id
+        })
     });
 });
 
-app.get('/api/revenues/:id', (req, res, next) => {
+router.get('/', (req, res, next) => {
+    Revenue.find().then(documents => {
+        console.log(documents);
+        res.status(200).json({
+            message: "Entries fetched successfully!",
+            posts: documents
+        });
+    });
+});
+
+router.get('/:id', (req, res, next) => {
     if (!ObjectId.isValid(req.params.id))
         return res.status(400).send('No record with given id: ${req.params.id}');
     Revenue.findById(req.params.id, (err, doc) => {
@@ -25,23 +43,7 @@ app.get('/api/revenues/:id', (req, res, next) => {
     });
 });
 
-app.post('/api/revenues', (req, res, next) => {
-    const rev = new Revenue(
-        {
-            invoiceNumber: req.body.invoiceNumber,
-            date: req.body.date,
-            particulars: req.body.particulars,
-            amount: req.body.amount
-        }
-    );
-    rev.save((err, docs) => {
-        if (!err) { res.send(docs); } else {
-            console.log("Error in retrieving revenues!")
-        }
-    });
-});
-
-app.put('/api/revenues/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     if (!ObjectId.isValid(req.params.id))
         return res.status(400).send('No record with given id: ${req.params.id}');
 
@@ -57,14 +59,19 @@ app.put('/api/revenues/:id', (req, res) => {
     });
 });
 
-app.delete('/api/revenues/:id', (req, res) => {
-    if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send("No record with given id: ${req.params.id}");
+router.delete('/:id', (req, res) => {
+    Revenue.deleteOne({ _id: req.params.id }).then(result => {
+        console.log(result);
+        res.status(200).json({ message: "Entry successfully deleted!" });
+      });
 
-    Revenue.findByIdAndRemove(req.params.id, (err, doc) => {
-        if (!err) { res.send(doc); }
-        else { console.log("Delete error!") }
-    })
+    // if (!ObjectId.isValid(req.params.id))
+    //     return res.status(400).send("No record with given id: ${req.params.id}");
+
+    // Revenue.findByIdAndRemove(req.params.id, (err, doc) => {
+    //     if (!err) { res.send(doc); }
+    //     else { console.log("Delete error!") }
+    // })
 });
 
-module.exports = app;
+module.exports = router;

@@ -49,13 +49,36 @@
                                     </div>
                                 </div>
 
-                            </form>
-
-
-                         
+                            </form>                        
 
                         </div>
                         <div class="col-md-7">
+
+                            <table class="table">
+                                <thead class="table-primary">
+                                  <tr>
+                                    <th scope="col">Invoice Number</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Particulars</th>
+                                    <th scope="col">Amount</th>                        
+                                  </tr>
+                                </thead>
+                                <tr class="table-primary" *ngFor="let rev of revenueService.revenues">
+                                  <td>{{ rev.invoiceNumber }}</td>
+                                  <td>{{ rev.date }}</td>
+                                  <td>{{ rev.particulars }}</td>
+                                  <td>{{ rev.amount }}</td>
+                                  <td>
+                                      <a class="action-btn" (click)="onEdit(rev)">
+                                        <i class="material-icons">edit</i>
+                                      </a>
+                                      <a class="action-btn" (click)="onDelete(rev._id, revenueForm)">
+                                        <i class="material-icons">delete</i>
+                                      </a>
+                                    </td>
+                                </tr>
+                              </table>
+
                         </div>
                     </div>
                 </div>

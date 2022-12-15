@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use(cors({ origin: 'mongodb+srv://diosa:6CvA4kxS50BF02rV@cluster0.cuersbo.mongodb.net/revenue-ledger?retryWrites=true&w=majority' }));
+app.use(cors({ origin: 'http://localhost:4200' }));
 
 const onError = error => {
     if (error.syscall !== "listen") {
